@@ -20,4 +20,9 @@ var Todo = mongoose.model('Todo', {
 	isEditing: Boolean
 });
 
+var User = mongoose.model('User', {
+	email: String,
+	password: String
+});
+
 module.exports.Todo =  Todo;

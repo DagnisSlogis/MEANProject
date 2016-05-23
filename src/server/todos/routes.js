@@ -3,7 +3,7 @@ var Todo = require('../db/db').Todo;
 var express = require('express');
 var router =  express.Router();
 
-router.get('/', function(req, res) {
+router.get('/', function(req, res, next) {
 	Todo.find(function(err, results) {
 		if (err) { console.log(err); }
 		res.send({ todos: results })
