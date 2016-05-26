@@ -1,10 +1,11 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import todoFactory from 'factories/todo-factory'
+import userFactory  from 'factories/user-factory'
 import todosController from 'todos/todos';
 import usersController from 'users/users';
 
-const app = angular.module('app', [uiRouter, todoFactory.name]);
+const app = angular.module('app', [uiRouter, todoFactory.name, userFactory.name]);
 
 app.config(($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) => {
 	$httpProvider.interceptors.push(function($q, $location) {
@@ -32,12 +33,12 @@ app.config(($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider
 		})
 		.state('users_login', {
 			url: '/users',
-			template: require('users/login.html'),			
+			template: require('users/login.html'),
 			controller: usersController
 		})
 		.state('users/register', {
 			url: '/users/register',
-			template: require('users/register.html'),			
+			template: require('users/register.html'),
 			controller: usersController
 		})
 	$locationProvider.html5Mode(true);

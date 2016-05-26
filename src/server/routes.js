@@ -7,8 +7,10 @@ module.exports = function routes(app) {
 };
 
 var auth = function(req, res, next) {
-  if (!req.isAuthenticated()) 
-    res.send(401);
+  if (!req.isAuthenticated()) {
+		console.log("Not authent");
+    res.sendStatus(401);
+	}
   else
     next();
 };

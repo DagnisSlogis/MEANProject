@@ -5,5 +5,5 @@ export default function($scope, userFactory) {
         createHasInput: false
   };
 	const { createUser } = userFactory;
-	$scope.createTask = _.partial(createTask, $scope);
+	$scope.createUser = _.partial(createUser, $scope, params);
 }
