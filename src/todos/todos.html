@@ -1,57 +1,67 @@
-<div class="container">
-	<a ui-sref="about" class="nav-link" >About</a>
-	<h2>Todo App</h2>
-
-	<form ng-submit="createTask()">
-		<input class="form-control  todos__create-input" placeholder="WHat?" ng-model="createTaskInput"/>
-		<button class="btn btn-success todos__create-button">Create</button>
-	</form>	
-	<table class="table table-striped">
-		<tr>
-			<th>Completed?</th>
-			<th>Task</th>
-			<th>Actions</th>
-		</tr>
-		<tr ng-repeat="todo in todos">
-			<td><input type="checkbox" ng-checked="todo.isCompleted" ng-click="onCompletedClick(todo)" class="todos__checkbox"/></td>
-			<td>
-				<span
-					class="todos__task"
-					ng-if="!todo.isEditing"
-					ng-class="{'todos__task--completed': todo.isCompleted}">
-					{{todo.task}}
-				</span>
-				<form ng-submit="updateTask(todo)">
-					<input ng-if="todo.isEditing" class="form-control todos__update-input" ng-value="todo.task" ng-model="todo.updatedTask"
-				</form>
-			</td>
-			<td>
-				<button
-					ng-if="!todo.isEditing"
-					class="btn btn-info"
-					ng-click="onEditClick(todo)">
-					Edit
-				</button>
-				<button
-					ng-if="!todo.isEditing"
-					ng-click="deleteTask(todo)"
-					class="btn btn-danger">
-					Delete
-				</button>
-
-				<button
-					ng-if="todo.isEditing"
-					class="btn btn-primary"
-					ng-click="updateTask(todo)">
-					Save
-				</button>
-				<button
-					ng-if="todo.isEditing"
-					class="btn btn-default"
-					ng-click="onCancelClick(todo)">
-					Cancel
-				</button>				
-			</td>
-		</tr>
-	</table>
+<div class="container-fluid">
+	<div class="new">
+		<button ng-click="onNewListClick()" class="create-todo">Add a list...</button>
+		<form ng-submit="createList()">
+			<input class="form-control  todos__create-input" placeholder="WHat?" ng-model="createList.input"/>
+			<button class="btn btn-success todos__create-button">Create</button>
+		</form>
+	</div>
+	<div class="single-todo" ng-repeat = "list in lists">
+		<h4 ng-if="!list.isEditing" ng-click="onEditLinkClick(list)" class="list-header">{{list.name}}</h4>
+		<form ng-submit="updateList(list)">
+			<input ng-if="list.isEditing" class="form-control todos__update-input" ng-value="list.name" ng-model="list.updatedList"
+		</form>
+		<button class="btn btn-link list__delete" ng-click="deleteList(list)"><i class="glyphicon glyphicon-remove"></i></button>
+		<form ng-submit="createTask(list)">
+			<div class="todo-list">
+				<div class="single" ng-repeat="todo in list.todos">
+					<span
+						ng-click="onEditClick(todo)"
+						class="todos__task"
+						ng-if="!todo.isEditing"
+						ng-class="{'todos__task--completed': todo.isCompleted}">
+						{{todo.task}}
+					</span>
+					<form ng-submit="updateTask(todo)">
+						<input ng-if="todo.isEditing" class="form-control todos__update-input" ng-value="todo.task" ng-model="todo.updatedTask"
+					</form>
+				</div>
+			</div>
+			<button ng-if="!list.isCreatingNew" class="create-todo" ng-click="onCreateListClick(list)" >Make a card...</button>
+			<div ng-if="list.isCreatingNew">
+				<input class="form-control todos__create-input-new" placeholder="I need to do..." ng-model="list.todo"/>
+				<div class="pull-right" style="padding: 10px 5px">
+					<button class="btn btn-success">Create</button>
+					<button class="btn btn-default" ng-click="onCloseCreateListClick(list)">Cancel</button>
+				</div>
+			</div>
+		</form>
+	</div>
 </div>
+				<!-- <td>
+					<button
+						ng-if="!todo.isEditing"
+						class="btn btn-info"
+						ng-click="onEditClick(todo)">
+						Edit
+					</button>
+					<button
+						ng-if="!todo.isEditing"
+						ng-click="deleteTask(todo)"
+						class="btn btn-danger">
+						Delete
+					</button>
+
+					<button
+						ng-if="todo.isEditing"
+						class="btn btn-primary"
+						ng-click="updateTask(todo)">
+						Save
+					</button>
+					<button
+						ng-if="todo.isEditing"
+						class="btn btn-default"
+						ng-click="onCancelClick(todo)">
+						Cancel
+					</button>
+				</td> -->

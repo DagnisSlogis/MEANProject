@@ -1,5 +1,7 @@
 var mongoose = require( 'mongoose' );
+var Schema = mongoose.Schema;
 
+// HANDLES Connection with DB
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/todos');
 
 mongoose.connection.on('connected', function () {
@@ -14,30 +16,23 @@ mongoose.connection.on('disconnected', function () {
   console.log('Mongoose default connection disconnected');
 });
 
-var Todo = mongoose.model('Todo', {
-	task: String,
-	isCompleted: Boolean,
-	isEditing: Boolean
+// CREATING SCHEMES
+var listSchema = new Schema({
+  name: String,
+  isArchived: Boolean,
+  todos: [{type: mongoose.Schema.Types.ObjectId, ref: 'Todo'}],
+  dateCreated: Date
 });
+var List = mongoose.model('List', listSchema);
 
-var User = mongoose.model('User', {
-	email: String,
-	password: String
+var todoSchema = new Schema({
+    task: String,
+    isCompleted: Boolean,
+    isEditing: Boolean,
+    list: {type: mongoose.Schema.Types.ObjectId, ref: 'List'},
+    dateCreated: Date
 });
+var Todo = mongoose.model('Todo', todoSchema);
 
-module.exports.comparePassword = function(candidatePassword, hash, callback) {
-  callback(null, isMatch);
-}
-
-module.exports.getUserByEmail = function(email, callback) {
-  console.log("hehehehehe");
-  var query = {email: email};
-  User.findOne(query, callback);
-}
-
-module.exports.getUserById = function(id, callback) {
-  User.findById(id, callback);
-}
-
-module.exports.Todo =  Todo;
-module.exports.User =  User;
+module.exports.Todo = Todo;
+module.exports.List = List;

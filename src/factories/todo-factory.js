@@ -4,26 +4,33 @@ import angular from 'angular';
 const todoFactory = angular.module('app.todoFactory', [])
 
 .factory('todoFactory', ($http) => {
+    function getLists($scope) {
+        $http.get('/lists').success(response => {
+            $scope.lists = response.lists;
+        });
+    }
+
     function getTasks($scope) {
         $http.get('/todos').success(response => {
             $scope.todos = response.todos;
         });
     }
 
-    function createTask($scope, params) {
-        if (!$scope.createTaskInput) { return; }
+    function createTask($scope, params, list) {
+      console.log(list);
+      if (!list.todo) { return; }
+      $http.post('/todos', {
+          task: list.todo,
+          list: list,
+          isCompleted: false,
+          isEditing: false
+      }).success(response => {
+          getLists($scope);
+          $scope.createTaskInput = '';
+      });
 
-        $http.post('/todos', {
-            task: $scope.createTaskInput,
-            isCompleted: false,
-            isEditing: false
-        }).success(response => {
-            getTasks($scope);
-            $scope.createTaskInput = '';
-        });
-
-        // params.createHasInput = false;
-        // $scope.createTaskInput = '';
+      params.createHasInput = false;
+      $scope.createTaskInput = '';
     }
 
     function updateTask($scope, todo) {
@@ -56,6 +63,10 @@ const todoFactory = angular.module('app.todoFactory', [])
         } else if (val && createHasInput) {
             $scope.todos[$scope.todos.length - 1].task = val;
         }
+    }
+
+    function createList($scope, params) {
+      console.log("test");
     }
 
     return {

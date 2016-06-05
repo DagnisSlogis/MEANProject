@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Todo = require('../db/db').Todo;
+var List = require('../db/db').List;
 var express = require('express');
 var router =  express.Router();
 
@@ -13,7 +14,12 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res) {
 	var todo = new Todo(req.body);
 	todo.save(function(err) {
-		if (err) { console.log(err); }
+		if (err) { console.error(err); }
+		List.update({ _id: req.body.list._id }, {
+			$push: { todos: todo }
+		}, function(err) {
+			if(err) { console.error(err);}
+		});
 		res.send('Todo saved');
 	});
 });
