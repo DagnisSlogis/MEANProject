@@ -3,49 +3,7 @@ import angular from 'angular';
 
 const userFactory = angular.module('app.userFactory', [])
 
-.factory('userFactory', ($http, $timeout, $q) => {
-  var user = null;
-
-  // Check if user is logged in
-  function isLoggedIn() {
-    if(user) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  function getUserStatus() {
-    return user;
-  }
-
-  function login(username, password) {
-
-    // create a new instance of deferred
-    var deferred = $q.defer();
-
-    // send a post request to the server
-    $http.post('/users/login', {
-      email: email,
-      password: password
-    }).success(function (data, status) {
-        if(status === 200 && data.status){
-          user = true;
-          deferred.resolve();
-        } else {
-          user = false;
-          deferred.reject();
-        }
-      })
-      // handle error
-      .error(function (data) {
-        user = false;
-        deferred.reject();
-      });
-
-    // return promise object
-    return deferred.promise;
-  }
+.factory('userFactory', ($http, $location) => {
 
   // Creates new User
   function createUser($scope, params) {
@@ -55,14 +13,26 @@ const userFactory = angular.module('app.userFactory', [])
       email: $scope.createUserEmail,
       password: $scope.createUserPassword
     }).success(response => {
-      $scope.createUserEmail = '';
-      $scope.createUserPassword = '';
-      $scope.createUserPasswordSubmit = '';
+      console.log(response);
+      $location.path('/users');
+    });
+  }
+
+  // Login user
+  function loginUser($scope) {
+    if (!$scope.loginUser.email || !$scope.loginUser.password  ) { console.log("Input all values"); return; }
+    console.log($scope.loginUser.email);
+    $http.post('/users/login', {
+      email: $scope.loginUser.email,
+      password: $scope.loginUser.password
+    }).success(response => {
+      console.log(response);
+      $location.path('/');
     });
   }
 
   return {
-    createUser
+    createUser, loginUser
   };
 });
 

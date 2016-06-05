@@ -25,5 +25,19 @@ var User = mongoose.model('User', {
 	password: String
 });
 
+module.exports.comparePassword = function(candidatePassword, hash, callback) {
+  callback(null, isMatch);
+}
+
+module.exports.getUserByEmail = function(email, callback) {
+  console.log("hehehehehe");
+  var query = {email: email};
+  User.findOne(query, callback);
+}
+
+module.exports.getUserById = function(id, callback) {
+  User.findById(id, callback);
+}
+
 module.exports.Todo =  Todo;
 module.exports.User =  User;

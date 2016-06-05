@@ -1,14 +1,29 @@
 <div class="container">
  	<div class="col-sm-4 col-sm-offset-4">
  		<h3> Login </h3>
- 		<form>
+ 		<form ng-submit="loginUser()">
 		  <div class="form-group">
-		    <label for="email">Email address</label>
-		    <input name="email" type="email" class="form-control" id="email" placeholder="Email">
+		    <label
+          for="email">
+          Email address
+        </label>
+		    <input
+          ng-model="loginUser.email"
+          name="email"
+          type="email"
+          class="form-control"
+          id="email"
+          placeholder="Email">
 		  </div>
 		  <div class="form-group">
 		    <label for="password1">Password</label>
-		    <input name="password" type="password" class="form-control" id="password1" placeholder="Password">
+		    <input
+          ng-model="loginUser.password"
+          name="password"
+          type="password"
+          class="form-control"
+          id="password1"
+          placeholder="Password">
 		  </div>
 		  <a class="btn btn-success" href="/users/register">Register</a>
 		  <button type="submit" class="btn btn-default">Login</button>

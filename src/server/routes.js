@@ -1,16 +1,16 @@
 var todosRoutes = require('./todos/routes');
 var usersRoutes = require('./users/routes');
+var passport = require('passport');
 
 module.exports = function routes(app) {
-	app.use('/todos', auth, todosRoutes);
+	app.use('/todos', isAutheticated, todosRoutes);
 	app.use('/users', usersRoutes);
 };
 
-var auth = function(req, res, next) {
-  if (!req.isAuthenticated()) {
-		console.log("Not authent");
-    res.sendStatus(401);
+function isAutheticated(req, res, next) {
+	console.log(req.user);
+	if(req.user) {
+		return next();
 	}
-  else
-    next();
-};
+	res.sendStatus(401);
+}
