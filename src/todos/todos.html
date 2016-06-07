@@ -8,8 +8,11 @@
 	</div>
 	<div class="single-todo" ng-repeat = "list in lists">
 		<h4 ng-if="!list.isEditing" ng-click="onEditLinkClick(list)" class="list-header">{{list.name}}</h4>
-		<form ng-submit="updateList(list)">
-			<input ng-if="list.isEditing" class="form-control todos__update-input" ng-value="list.name" ng-model="list.updatedList"
+		<form ng-if="list.isEditing" ng-submit="updateList(list)">
+			<input class="form-control list__update-input" ng-value="list.name" ng-model="list.updatedList"/>
+			<div class="text-right" style="padding: 5px 5px">
+				<button class="btn btn-success">Update</button>
+			</div>
 		</form>
 		<button class="btn btn-link list__delete" ng-click="deleteList(list)"><i class="glyphicon glyphicon-remove"></i></button>
 		<form ng-submit="createTask(list)">

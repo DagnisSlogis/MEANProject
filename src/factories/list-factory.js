@@ -25,6 +25,13 @@ const listFactory = angular.module('app.listFactory', [])
     // $scope.createTaskInput = '';
   }
 
+  function updateList($scope, list) {
+    $http.put(`/lists/${list._id}`, { name: list.updatedList }).success(response => {
+        getLists($scope);
+        list.isEditing = false;
+    });
+  }
+
   function deleteList($scope, list) {
     $http.delete(`/lists/${list._id}`).success(response => {
         getLists($scope);
@@ -34,6 +41,7 @@ const listFactory = angular.module('app.listFactory', [])
   return {
       getLists,
       createList,
+      updateList,
       deleteList
   };
 });

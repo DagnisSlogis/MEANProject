@@ -19,6 +19,17 @@ router.post('/', function(req, res) {
 	});
 });
 
+// Updating
+router.put('/:id', function(req, res) {
+  var id = req.params.id;
+  List.update({ _id: mongoose.Types.ObjectId(id) }, {
+    $set: { name: req.body.name }
+  }, function(err) {
+    if (err) { console.log(err); }
+    res.send('List updated');
+  });
+});
+
 // Deleting List
 router.delete('/:id', function(req, res) {
   var id = req.params.id;

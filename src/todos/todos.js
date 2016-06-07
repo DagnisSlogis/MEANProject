@@ -27,7 +27,7 @@ export default function($scope, todoFactory, listFactory ) {
 
     $scope.onEditLinkClick = list => {
       list.isEditing = true;
-      list.updatedList = list.name
+      list.updatedList = list.name;
     }
 
     $scope.onCancelClick = todo => {
@@ -35,12 +35,14 @@ export default function($scope, todoFactory, listFactory ) {
     };
 
     const { createTask, updateTask, deleteTask, watchCreateTaskInput } = todoFactory;
-    const { createList, deleteList } = listFactory;
+    const { createList, updateList, deleteList } = listFactory;
 
     $scope.createTask = _.partial(createTask, $scope, params);
     $scope.updateTask = _.partial(updateTask, $scope);
     $scope.deleteTask = _.partial(deleteTask, $scope);
+
     $scope.createList = _.partial(createList, $scope, params);
+    $scope.updateList = _.partial(updateList, $scope);
     $scope.deleteList = _.partial(deleteList, $scope);
 
     $scope.$watch('createTaskInput', _.partial(watchCreateTaskInput, params, $scope));
