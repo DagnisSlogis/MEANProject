@@ -2,9 +2,11 @@ import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import todoFactory from 'factories/todo-factory'
 import listFactory from 'factories/list-factory'
+import clickEventFactory from 'factories/click-event-factory'
 import todosController from 'todos/todos';
 
-const app = angular.module('app', [uiRouter, todoFactory.name, listFactory.name]);
+// Init Angular APP
+const app = angular.module('app', [uiRouter, todoFactory.name, listFactory.name, clickEventFactory.name]);
 
 app.config(($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) => {
 	$httpProvider.interceptors.push(function($q, $location) {
@@ -25,10 +27,6 @@ app.config(($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider
 			url: '/',
 			template: require('todos/todos.html'),
 			controller: todosController
-		})
-		.state('about', {
-			url: '/about',
-			template: require('about/about.html')
 		})
 	$locationProvider.html5Mode(true);
 });

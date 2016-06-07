@@ -4,23 +4,24 @@ import angular from 'angular';
 const todoFactory = angular.module('app.todoFactory', [])
 
 .factory('todoFactory', ($http) => {
+    //  Get Lists in DB
     function getLists($scope) {
         $http.get('/lists').success(response => {
             $scope.lists = response.lists;
         });
     }
-
+    // Get ToDos from DB
     function getTasks($scope) {
         $http.get('/todos').success(response => {
             $scope.todos = response.todos;
         });
     }
-
+    // Creates Task in a list
     function createTask($scope, params, list) {
-      console.log(list);
       if (!list.todo) { return; }
       $http.post('/todos', {
           task: list.todo,
+          todoColor: list.color,
           list: list,
           isCompleted: false,
           isEditing: false
@@ -28,54 +29,50 @@ const todoFactory = angular.module('app.todoFactory', [])
           getLists($scope);
           $scope.createTaskInput = '';
       });
-
       params.createHasInput = false;
       $scope.createTaskInput = '';
     }
-
+    // Updates Tasks name
     function updateTask($scope, todo) {
-        $http.put(`/todos/${todo._id}`, { task: todo.updatedTask }).success(response => {
-            getTasks($scope);
-            todo.isEditing = false;
-        });
-
-        // todo.task = todo.updatedTask;
-        // todo.isEditing = false;
+      $http.put(`/todos/${todo._id}`, {
+        task: todo.updatedTask,
+        todoColor: todo.updatedColor
+      }).success(response => {
+          getLists($scope);
+          todo.isEditing = false;
+      });
     }
-
+    // Deletes Task if it is archived
     function deleteTask($scope, todoToDelete) {
-        $http.delete(`/todos/${todoToDelete._id}`).success(response => {
-            getTasks($scope);
-        });
-
-        // _.remove($scope.todos, todo => todo.task === todoToDelete.task);
+      $http.delete(`/todos/${todoToDelete._id}`).success(response => {
+          getLists($scope);
+      });
     }
-
-    function watchCreateTaskInput(params, $scope, val) {
-        const createHasInput = params.createHasInput;
-
-        if (!val && createHasInput) {
-            $scope.todos.pop();
-            params.createHasInput = false;
-        } else if (val && !createHasInput) {
-            $scope.todos.push({ task: val, isCompleted: false });
-            params.createHasInput = true;
-        } else if (val && createHasInput) {
-            $scope.todos[$scope.todos.length - 1].task = val;
-        }
+    // Archives Task or unarchives it
+    function archiveTask($scope, todo) {
+      let reverse = 0;
+      if(todo.isCompleted) {
+        reverse = 0;
+      }
+      else {
+        reverse = 1;
+      }
+      $http.put(`/todos/archive/${todo._id}`, {
+        isCompleted: reverse
+      }).success(response => {
+        todo.isCompleted = reverse;
+        getLists($scope);
+      });
     }
-
-    function createList($scope, params) {
-      console.log("test");
-    }
-
+    // Returning available functions
     return {
         getTasks,
         createTask,
         updateTask,
         deleteTask,
-        watchCreateTaskInput
+        archiveTask
     };
 });
 
+// Exporting Factory
 export default todoFactory;

@@ -1,8 +1,18 @@
+.add-new-list
+	position: absolute
+	top: 0
+	left: 0
+	right: 0
+	.form
+		width: 400px
+		margin: 0 auto
+		padding: 10px 0
 .list
 	&__delete
 		position: absolute
 		top: 0px
 		right: 0px
+		color: black
 
 	&__update-input
 		padding: 23px 15px
@@ -11,6 +21,16 @@
 		font-size: 17px
 		color: black
 
+	&__create-input
+		display: inline
+		width: 60%
+
+	&__create-button
+		display: inline
+		width: 18%
+	&__create-select
+		display: inline-block
+		width: 20%
 .todos
 	&__create-input
 		margin: 0 auto
@@ -28,6 +48,14 @@
 	&__update-input
 		margin: 0 auto
 		width: 300px
+	&__options
+		display: inline-block
+		button
+			background: none
+			border: none
+			padding: 0 2px
+			&.delete
+				color: red
 td
 	font:
 		size: 16px
@@ -44,6 +72,14 @@ td
 	border-radius: 4px
 	border: 1px solid #e7e7e7
 
+	&.red
+		background: #ffa7a7
+	&.default
+		background: #f8f8f8
+	&.green
+		background: #e5ffa7
+	&.blue
+		background: #a7caff
 	.list-header
 		padding: 5px 15px
 
@@ -67,3 +103,39 @@ td
 
 		&:hover
 			text-decoration: underline
+
+.todo-label
+	display: inline-block
+	background: red
+	width: 10px
+	height: 10px
+	border-radius: 50%
+	margin-right: 5px
+
+	&.red
+		background: #ffa7a7
+		border: 1px solid #d03d3d
+	&.default
+		background: #f8f8f8
+		border: 1px solid #909090
+	&.green
+		background: #e5ffa7
+		border: 1px solid #93b939
+	&.blue
+		background: #a7caff
+		border: 1px solid #5682c3
+
+.select-todo-color
+	display: inline-block
+	width: 120px
+
+.checkbox
+	&.todo
+		display: inline-block
+		margin: 0
+
+		input
+			margin: 8px
+			margin-left: -20px
+.single_is_completed
+	opacity: 0.7

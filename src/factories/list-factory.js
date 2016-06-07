@@ -11,22 +11,24 @@ const listFactory = angular.module('app.listFactory', [])
       });
   }
 
-  function createList($scope, params) {
+  function createList($scope) {
     if (!$scope.createList.input) { return; }
     $http.post('/lists', {
         name: $scope.createList.input,
-        isArchived: false
+        isArchived: false,
+        listColor: $scope.createList.color
     }).success(response => {
         getLists($scope);
         $scope.createList.input = '';
+        $scope.createList.color = '';
     });
-
-    // params.createHasInput = false;
-    // $scope.createTaskInput = '';
   }
 
   function updateList($scope, list) {
-    $http.put(`/lists/${list._id}`, { name: list.updatedList }).success(response => {
+    $http.put(`/lists/${list._id}`, {
+      name: list.updatedList,
+      listColor: list.updatedColor
+    }).success(response => {
         getLists($scope);
         list.isEditing = false;
     });

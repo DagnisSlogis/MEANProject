@@ -16,10 +16,11 @@ mongoose.connection.on('disconnected', function () {
   console.log('Mongoose default connection disconnected');
 });
 
-// CREATING SCHEMES
+// CREATING SCHEMAS
 var listSchema = new Schema({
   name: String,
   isArchived: Boolean,
+  listColor: String,
   todos: [{type: mongoose.Schema.Types.ObjectId, ref: 'Todo'}],
   dateCreated: Date
 });
@@ -28,7 +29,7 @@ var List = mongoose.model('List', listSchema);
 var todoSchema = new Schema({
     task: String,
     isCompleted: Boolean,
-    isEditing: Boolean,
+    todoColor: String,
     list: {type: mongoose.Schema.Types.ObjectId, ref: 'List'},
     dateCreated: Date
 });

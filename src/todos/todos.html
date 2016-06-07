@@ -1,70 +1,73 @@
 <div class="container-fluid">
-	<div class="new">
-		<button ng-click="onNewListClick()" class="create-todo">Add a list...</button>
-		<form ng-submit="createList()">
-			<input class="form-control  todos__create-input" placeholder="WHat?" ng-model="createList.input"/>
-			<button class="btn btn-success todos__create-button">Create</button>
+	<div class="add-new-list">
+		<form class="form" ng-submit="createList()">
+			<input class="form-control  list__create-input" placeholder="Enter list name..." ng-model="createList.input"/>
+			<div class="form-group list__create-select">
+			  <select class="form-control" id="sel1" name="singleSelect" ng-model="createList.color">
+					<option value="" selected>None</option>
+					<option ng-repeat="(key, value) in colors" style="background: {{value}}" value="{{key}}">{{key}}</option>
+				</select>
+			</div>
+			<button class="btn btn-success list__create-button">Create</button>
 		</form>
 	</div>
-	<div class="single-todo" ng-repeat = "list in lists">
+	<div class="single-todo {{list.listColor}}" ng-repeat = "list in lists">
 		<h4 ng-if="!list.isEditing" ng-click="onEditLinkClick(list)" class="list-header">{{list.name}}</h4>
 		<form ng-if="list.isEditing" ng-submit="updateList(list)">
 			<input class="form-control list__update-input" ng-value="list.name" ng-model="list.updatedList"/>
 			<div class="text-right" style="padding: 5px 5px">
+				<select class="select-todo-color form-control" name="singleSelect" ng-model="list.updatedColor">
+					<option value="" selected>None</option>
+					<option ng-repeat="(key, value) in colors" style="background: {{value}}" value="{{key}}">{{key}}</option>
+				</select>
 				<button class="btn btn-success">Update</button>
 			</div>
 		</form>
 		<button class="btn btn-link list__delete" ng-click="deleteList(list)"><i class="glyphicon glyphicon-remove"></i></button>
-		<form ng-submit="createTask(list)">
-			<div class="todo-list">
-				<div class="single" ng-repeat="todo in list.todos">
-					<span
-						ng-click="onEditClick(todo)"
-						class="todos__task"
-						ng-if="!todo.isEditing"
-						ng-class="{'todos__task--completed': todo.isCompleted}">
-						{{todo.task}}
-					</span>
-					<form ng-submit="updateTask(todo)">
-						<input ng-if="todo.isEditing" class="form-control todos__update-input" ng-value="todo.task" ng-model="todo.updatedTask"
-					</form>
+		<div class="todo-list">
+			<div class="single" ng-class="{'single_is_completed': todo.isCompleted}" ng-repeat="todo in list.todos">
+				<div ng-if="todo.isCompleted" class="todos__options">
+					<button ng-click="deleteTask(todo)" class="delete"><i class="glyphicon glyphicon-trash"></i></button>
+					<button ng-click="archiveTask(todo)" class="expend"><i class="glyphicon glyphicon-expand"></i></button>
 				</div>
+				<div ng-if="!todo.isCompleted" class="checkbox todo">
+				  <label>
+				    <input ng-click="archiveTask(todo)" type="checkbox" value="">
+				  </label>
+				</div>
+				<span ng-if="todo.todoColor" class="todo-label {{todo.todoColor}}"></span>
+				<span
+					ng-click="onEditClick(todo)"
+					class="todos__task"
+					ng-if="!todo.isEditing"
+					ng-class="{'todos__task--completed': todo.isCompleted}">
+					{{todo.task}}
+				</span>
+				<form ng-if="todo.isEditing" ng-submit="updateTask(todo)">
+					<input class="form-control todos__update-input" ng-value="todo.task" ng-model="todo.updatedTask" />
+					<div class="text-right" style="padding: 5px 5px">
+						<select class="select-todo-color form-control" name="singleSelect" ng-model="todo.updatedColor">
+							<option value="" selected>None</option>
+							<option ng-repeat="(key, value) in colors" style="background: {{value}}" value="{{key}}">{{key}}</option>
+						</select>
+						<button class="btn btn-success">Update</button>
+					</div>
+				</form>
 			</div>
-			<button ng-if="!list.isCreatingNew" class="create-todo" ng-click="onCreateListClick(list)" >Make a card...</button>
-			<div ng-if="list.isCreatingNew">
+		</div>
+		<button ng-if="!list.isCreatingNew" class="create-todo" ng-click="onCreateListClick(list)" >Make a card...</button>
+		<div ng-if="list.isCreatingNew">
+			<form ng-submit="createTask(list)">
 				<input class="form-control todos__create-input-new" placeholder="I need to do..." ng-model="list.todo"/>
 				<div class="pull-right" style="padding: 10px 5px">
+					<select class="select-todo-color form-control" name="singleSelect" ng-model="list.color">
+						<option value="" selected>None</option>
+						<option ng-repeat="(key, value) in colors" style="background: {{value}}" value="{{key}}">{{key}}</option>
+					</select>
 					<button class="btn btn-success">Create</button>
 					<button class="btn btn-default" ng-click="onCloseCreateListClick(list)">Cancel</button>
 				</div>
-			</div>
-		</form>
+			</form>
+		</div>
 	</div>
 </div>
-				<!-- <td>
-					<button
-						ng-if="!todo.isEditing"
-						class="btn btn-info"
-						ng-click="onEditClick(todo)">
-						Edit
-					</button>
-					<button
-						ng-if="!todo.isEditing"
-						ng-click="deleteTask(todo)"
-						class="btn btn-danger">
-						Delete
-					</button>
-
-					<button
-						ng-if="todo.isEditing"
-						class="btn btn-primary"
-						ng-click="updateTask(todo)">
-						Save
-					</button>
-					<button
-						ng-if="todo.isEditing"
-						class="btn btn-default"
-						ng-click="onCancelClick(todo)">
-						Cancel
-					</button>
-				</td> -->
