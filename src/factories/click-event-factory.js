@@ -5,10 +5,6 @@ const clickEventFactory = angular.module('app.clickEventFactory', [])
 
 .factory('clickEventFactory', ($http) => {
 
-  function onCompletedClick($scope, todo) {
-    todo.isCompleted = !todo.isCompleted;
-  }
-
   function onCreateListClick($scope, list) {
     list.isCreatingNew = true;
   }
@@ -25,7 +21,7 @@ const clickEventFactory = angular.module('app.clickEventFactory', [])
     }
   }
 
-  function onEditClick($scope, list) {
+  function onEditLinkClick($scope, list) {
     list.isEditing = true;
     list.updatedList = list.name;
     list.updatedColor = list.listColor;
@@ -36,11 +32,10 @@ const clickEventFactory = angular.module('app.clickEventFactory', [])
   }
 
   return {
-    onCompletedClick,
     onCreateListClick,
     onCloseCreateListClick,
     onEditClick,
-    onEditClick,
+    onEditLinkClick,
     onCancelClick
   };
 });

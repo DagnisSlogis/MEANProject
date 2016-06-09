@@ -48,16 +48,11 @@
     "debug": "^2.2.0",
     "express-messages": "^1.0.1",
     "express-session": "^1.13.0",
-    "express-validator": "^2.20.4",
     "jquery": "^2.2.3",
     "kerberos": "0.0.21",
     "lodash": "^4.12.0",
     "mongoose": "^4.4.17",
-    "multer": "^1.1.0",
     "nodemon": "^1.9.2",
-    "passport": "^0.3.2",
-    "passport-http": "^0.3.0",
-    "passport-local": "^1.0.0",
     "serve-favicon": "^2.3.0"
   }
 }
